@@ -1,0 +1,331 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Schur_HW6</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-02-25"><meta name="DC.source" content="Schur_HW6.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">MAE 6258 Schur_HW6</a></li><li><a href="#2">Problem 2</a></li></ul></div><h2>MAE 6258 Schur_HW6<a name="1"></a></h2><pre class="codeinput"><span class="comment">%Randy Schur</span>
+<span class="comment">%Adapted from HW5 solutions.</span>
+clear
+close <span class="string">all</span>
+
+n_modes = 6; <span class="comment">% number of modes to use in expansion</span>
+DVA_mode = 2; <span class="comment">% mode to tune DVA to beam properties</span>
+L = 1; <span class="comment">% length (m)</span>
+rhoA = 1; <span class="comment">% mass/length (kg/m)</span>
+EI = 1; <span class="comment">% bending stiffness (N-m^2)</span>
+
+<span class="comment">% dimensionless frequencies (pinned-pinned):</span>
+lamda = pi*(1:n_modes)';
+w_n = lamda.^2*sqrt(EI/(rhoA*L^4));<span class="comment">% natural frequencies</span>
+w_a = w_n(2);
+<span class="comment">% modal damping</span>
+zeta = 0.00*ones(size(w_n));
+<span class="comment">% plot mode shapes</span>
+mode_fn =<span class="string">'ms_pinned_pinned'</span>;
+
+<span class="comment">% force influence</span>
+x_f = L/10; <span class="comment">% force location</span>
+phi_x_f = feval(mode_fn,x_f,1:n_modes,rhoA,L); <span class="comment">% mode shapes evaluated at x_f</span>
+<span class="comment">% constant DVA parameters</span>
+x_a = L/4;
+p = 1;
+phi_x_a = feval(mode_fn,x_a,1:n_modes,rhoA,L); <span class="comment">% mode shapes evaluated at x_a</span>
+zeta_a = 0.05;
+w_a = p*w_n(DVA_mode);
+<span class="comment">% frequency response at x for system without DVA</span>
+wmin = 0.1*w_n(1);
+wmax = 10*w_n(end);
+w = logspace(log10(wmin),log10(wmax),10001);
+G = zeros(1,length(w));
+<span class="comment">% G(iw) =W(x,iw)/F(iw)</span>
+x = L/4;
+phi_x = feval(mode_fn,x,1:n_modes,rhoA,L);
+<span class="comment">% mode shapes evaluated at x</span>
+<span class="keyword">for</span> k = 1:n_modes
+    Gtilde = 1./(w_n(k)^2-w.^2+(1i*2*zeta(k)*w_n(k))*w);
+    G = G + (phi_x_f(k)*phi_x(k))*Gtilde;
+<span class="keyword">end</span>
+    str = {<span class="string">'Without DVA'</span>};
+ampl = 10^(25/20);
+r1 = 35/w_a;
+r2 = 45/w_a;
+fn1 = @(mu1) r1 - (p^2 - r1^2)/abs((1-r1^2)*(p^2-r1^2) -mu1*p^2*r1^2);
+mu = [.004 .0065 ]; <span class="comment">%</span>
+
+G_DVA = zeros(length(mu),length(w));
+<span class="comment">% G(iw) =W(x,iw)/F(iw) w/ DVA</span>
+<span class="keyword">for</span> i = 1:length(mu)
+    <span class="comment">% varying DVA parameters</span>
+    m_a = mu(i)/phi_x_a(DVA_mode)^2
+    <span class="comment">% DVA mass (kg)</span>
+    k_a = m_a*w_a^2    <span class="comment">% DVA stiffness (N/m)</span>
+    c_a = 2*zeta_a*m_a*w_a <span class="comment">% DVA damping (N/(m/s))</span>
+    <span class="comment">% frequency response at x for system with DVA</span>
+    H = (m_a*(c_a*w.^3+k_a*w.^2))./(-m_a*w.^2+1i*c_a*w+k_a); <span class="comment">% H(iw) (DVA TF)</span>
+    num = zeros(1,length(w)); <span class="comment">% sum in numerator of W(x_a,s)/F(s)</span>
+    den = zeros(1,length(w)); <span class="comment">% sum in denomenator of W(x_a,s)/F(s)</span>
+    <span class="keyword">for</span> k = 1:n_modes
+        Gtilde = 1./(w_n(k)^2 - w.^2+(1i*2*zeta(k)*w_n(k))*w);
+        num = num + phi_x_f(k)*phi_x_a(k)*Gtilde;
+        den = den + phi_x_a(k)^2*Gtilde;
+    <span class="keyword">end</span>
+Wxa_F = num./(1-H.*den);
+    <span class="keyword">for</span> k = 1:n_modes
+        Gtilde = 1./(w_n(k)^2-w.^2+(1i*2*zeta(k)*w_n(k))*w);
+        G_DVA(i,:) = G_DVA(i,:) + H.*Wxa_F.*(phi_x_a(k)*phi_x(k)*Gtilde)+(phi_x_f(k)*phi_x(k))*Gtilde;
+    <span class="keyword">end</span>
+    str{i+1} = sprintf(<span class="string">'\\mu = %g'</span>,mu(i));
+<span class="keyword">end</span>
+<span class="comment">% convert to dimensionless</span>
+d_st = phi_x_a(DVA_mode)*phi_x(DVA_mode)/w_n(DVA_mode)^2;
+G = G/d_st;
+G_DVA = G_DVA/d_st;
+<span class="comment">% plot frequency response</span>
+figure;
+semilogx(w,20*log10(abs(G)),w,20*log10(abs(G_DVA)));
+legend(str{:});
+set(gca,<span class="string">'XLim'</span>,[1e0 1e3]);
+hold <span class="string">on</span>
+x = linspace(-120, 40, 100);
+y1 = repmat(35, size(x));
+y2 = repmat(45, size(x));
+semilogx(y1, x, <span class="string">'k:'</span>, y2, x, <span class="string">'k:'</span>)
+y3 = repmat(25, size(w));
+semilogx(w, y3, <span class="string">'k:'</span>)
+</pre><pre class="codeoutput">
+m_a =
+
+    0.0020
+
+
+k_a =
+
+    3.1171
+
+
+c_a =
+
+    0.0079
+
+
+m_a =
+
+    0.0032
+
+
+k_a =
+
+    5.0653
+
+
+c_a =
+
+    0.0128
+
+</pre><img vspace="5" hspace="5" src="Schur_HW6_01.png" alt=""> <h2>Problem 2<a name="2"></a></h2><pre class="codeinput">clear
+close <span class="string">all</span>
+
+alpha = 0.004;
+T=10;
+m1 = 1;
+m2 = .1;
+c=.004;
+k=1;
+
+w2 = sqrt(k/m2);
+zeta = c/(2*m2*w2);
+mu = m2/m1;
+
+s = tf(<span class="string">'s'</span>);
+G1 = 1/m2*(s^2+2*zeta*w2*s+w2^2)/((mu*s^2+2*zeta*w2*s+w2^2)*(s^2+2*zeta*w2*s+w2^2)-(2*zeta*w2*s+w2^2)^2);
+K = tf([T 1], [T*alpha 1]);
+G2 = (1/m2)/((mu*s^2+2*zeta*w2*s+w2^2)*(s^2+2*zeta*w2*s+w2^2)-(2*zeta*w2*s+w2^2)^2);
+<span class="comment">% G3 = (m2*s^2+c*s+k)/((m1*s^2+c*s+k)*(m2*s^2+c*s+k)-(c*s+k)^2);</span>
+<span class="comment">% G4 = 1/((m1*s^2+c*s+k)*(m2*s^2+c*s+k)-(c*s+k)^2);</span>
+
+margin(G1*K)
+figure
+margin(G2*K)
+</pre><img vspace="5" hspace="5" src="Schur_HW6_02.png" alt=""> <img vspace="5" hspace="5" src="Schur_HW6_03.png" alt=""> <p class="footer"><br>
+      Published with MATLAB&reg; 7.13<br></p></div><!--
+##### SOURCE BEGIN #####
+%% MAE 6258 Schur_HW6
+%Randy Schur
+%Adapted from HW5 solutions.
+clear 
+close all
+
+n_modes = 6; % number of modes to use in expansion
+DVA_mode = 2; % mode to tune DVA to beam properties
+L = 1; % length (m)
+rhoA = 1; % mass/length (kg/m)
+EI = 1; % bending stiffness (N-m^2)
+
+% dimensionless frequencies (pinned-pinned):
+lamda = pi*(1:n_modes)'; 
+w_n = lamda.^2*sqrt(EI/(rhoA*L^4));% natural frequencies
+w_a = w_n(2);
+% modal damping
+zeta = 0.00*ones(size(w_n));
+% plot mode shapes
+mode_fn ='ms_pinned_pinned';
+
+% force influence
+x_f = L/10; % force location
+phi_x_f = feval(mode_fn,x_f,1:n_modes,rhoA,L); % mode shapes evaluated at x_f
+% constant DVA parameters
+x_a = L/4;
+p = 1;
+phi_x_a = feval(mode_fn,x_a,1:n_modes,rhoA,L); % mode shapes evaluated at x_a
+zeta_a = 0.05;
+w_a = p*w_n(DVA_mode);
+% frequency response at x for system without DVA
+wmin = 0.1*w_n(1);
+wmax = 10*w_n(end);
+w = logspace(log10(wmin),log10(wmax),10001);
+G = zeros(1,length(w));
+% G(iw) =W(x,iw)/F(iw)
+x = L/4;
+phi_x = feval(mode_fn,x,1:n_modes,rhoA,L);
+% mode shapes evaluated at x
+for k = 1:n_modes
+    Gtilde = 1./(w_n(k)^2-w.^2+(1i*2*zeta(k)*w_n(k))*w);
+    G = G + (phi_x_f(k)*phi_x(k))*Gtilde;
+end
+    str = {'Without DVA'};
+ampl = 10^(25/20);    
+r1 = 35/w_a;
+r2 = 45/w_a;
+fn1 = @(mu1) r1 - (p^2 - r1^2)/abs((1-r1^2)*(p^2-r1^2) -mu1*p^2*r1^2);
+mu = [.004 .0065 ]; %
+
+G_DVA = zeros(length(mu),length(w));
+% G(iw) =W(x,iw)/F(iw) w/ DVA
+for i = 1:length(mu)
+    % varying DVA parameters
+    m_a = mu(i)/phi_x_a(DVA_mode)^2
+    % DVA mass (kg)
+    k_a = m_a*w_a^2    % DVA stiffness (N/m)
+    c_a = 2*zeta_a*m_a*w_a % DVA damping (N/(m/s))
+    % frequency response at x for system with DVA
+    H = (m_a*(c_a*w.^3+k_a*w.^2))./(-m_a*w.^2+1i*c_a*w+k_a); % H(iw) (DVA TF)
+    num = zeros(1,length(w)); % sum in numerator of W(x_a,s)/F(s)
+    den = zeros(1,length(w)); % sum in denomenator of W(x_a,s)/F(s)
+    for k = 1:n_modes
+        Gtilde = 1./(w_n(k)^2 - w.^2+(1i*2*zeta(k)*w_n(k))*w);
+        num = num + phi_x_f(k)*phi_x_a(k)*Gtilde;
+        den = den + phi_x_a(k)^2*Gtilde;
+    end
+Wxa_F = num./(1-H.*den);
+    for k = 1:n_modes
+        Gtilde = 1./(w_n(k)^2-w.^2+(1i*2*zeta(k)*w_n(k))*w);
+        G_DVA(i,:) = G_DVA(i,:) + H.*Wxa_F.*(phi_x_a(k)*phi_x(k)*Gtilde)+(phi_x_f(k)*phi_x(k))*Gtilde;
+    end
+    str{i+1} = sprintf('\\mu = %g',mu(i));
+end
+% convert to dimensionless
+d_st = phi_x_a(DVA_mode)*phi_x(DVA_mode)/w_n(DVA_mode)^2;
+G = G/d_st;
+G_DVA = G_DVA/d_st;
+% plot frequency response
+figure;
+semilogx(w,20*log10(abs(G)),w,20*log10(abs(G_DVA)));
+legend(str{:});
+set(gca,'XLim',[1e0 1e3]);
+hold on
+x = linspace(-120, 40, 100);
+y1 = repmat(35, size(x));
+y2 = repmat(45, size(x));
+semilogx(y1, x, 'k:', y2, x, 'k:')
+y3 = repmat(25, size(w));
+semilogx(w, y3, 'k:')
+
+%% Problem 2
+
+clear
+close all
+
+alpha = 0.004;
+T=10;
+m1 = 1;
+m2 = .1;
+c=.004;
+k=1;
+
+w2 = sqrt(k/m2);
+zeta = c/(2*m2*w2);
+mu = m2/m1;
+
+s = tf('s');
+G1 = 1/m2*(s^2+2*zeta*w2*s+w2^2)/((mu*s^2+2*zeta*w2*s+w2^2)*(s^2+2*zeta*w2*s+w2^2)-(2*zeta*w2*s+w2^2)^2);
+K = tf([T 1], [T*alpha 1]);
+G2 = (1/m2)/((mu*s^2+2*zeta*w2*s+w2^2)*(s^2+2*zeta*w2*s+w2^2)-(2*zeta*w2*s+w2^2)^2);
+% G3 = (m2*s^2+c*s+k)/((m1*s^2+c*s+k)*(m2*s^2+c*s+k)-(c*s+k)^2);
+% G4 = 1/((m1*s^2+c*s+k)*(m2*s^2+c*s+k)-(c*s+k)^2);
+
+margin(G1*K)
+figure
+margin(G2*K)
+
+
+##### SOURCE END #####
+--></body></html>

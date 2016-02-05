@@ -1,0 +1,96 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{url}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{times}
+\usepackage{graphicx}
+
+\setlength{\oddsidemargin}{-0.05in}
+\setlength{\evensidemargin}{0.00in}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{9in}
+\setlength{\topmargin}{-.5in}
+
+\providecommand{\inv}[1]{{#1}^{\ensuremath{\mathsf{-1}}}} % inverse ...
+\providecommand{\tr}[1]{{#1}^{\ensuremath{\mathsf{T}}}} % transpose ...
+\providecommand{\abs}[1]{\lvert#1\rvert}
+\providecommand{\norm}[1]{\left\lVert#1\right\rVert}
+\providecommand{\vect}[1]{\bm#1}
+\providecommand{\mat}[1]{\mathbf#1}
+\providecommand{\bigTheta}{\mathit{\Theta}}
+\providecommand{\bigO}{\mathit{O}}
+\providecommand{\algorithmtopspace}
+
+\providecommand{\ans}[1]{\vspace{.2in}\\\textbf{Ans:}#1\\}
+%\providecommand{\ans}[1]{}
+
+\title{CS 4/6545 Autonomous Robotics: \\Simulating the dynamics of a box undergoing compliant contact} 
+\date{}
+
+\begin{document}
+\maketitle
+
+\textbf{Preface: why this assignment?}
+Contact is the key to manipulation, and the only way that Robotics currently
+knows how to do any manipulation is by modeling that contact (to some degree
+of fidelity). Contact is difficult to model quickly, accurately, and robustly.
+Previous assignments have focused on control of robotic systems. \emph{This 
+assignment will focus on modeling a ``robotic'' (rigid body) system.}\\
+
+We will use \textsc{MATLAB} to simulate a $1m$ tall by $1m$ wide box 
+contacting a ``ground plane''
+(the line segment $y=0$) in 2D. While this scenario seems very simple, these
+assumptions (planar ground, simple rigid body, 2D, compliant contact) are often 
+used in Robotics.\\
+
+Read all instructions carefully. Your submission will consist of all
+code and plots. 
+
+\begin{enumerate}
+\item Implement the MATLAB function \texttt{drot(.)} (located in the file \texttt{drot.m}), which will return the $2 \times 2$ time derivative of a $2 \times 2$ rotation matrix; differentiate the matrix in \texttt{rot.m} with respect to time 
+(don't forget that $\theta$ is a function of time!) This problem should give you a fairly gentle introduction to MATLAB syntax. You will need this function
+in step \#3.
+
+\textbf{Test your function:}
+Do this by using two nearby values of $\theta$, which I will call $\theta_1$ and $\theta_2$. We can then define $\dot{\theta}$ (again, for testing purposes) as
+$\theta_2 - \theta_1$. Does \texttt{drot}($\theta_1, \dot{\theta}$) $\approxeq R(\theta_2) - R(\theta_1)$?
+
+\textbf{Explain how I arrived at the test above.} 
+
+\item Fill out the necessary parts of \texttt{boxode.m}. Like \texttt{springode.m} that we developed in class, \texttt{boxode.m} evaluates an ordinary differential equation \emph{and} the 2nd order ODE is converted to a system of first order ODEs:
+\begin{align}
+\mat{M}\ddot{\vect{x}} = \vect{f}
+\end{align} 
+becomes
+\begin{align}
+\mat{M}\dot{\vect{v}} & = \vect{f} \\
+\dot{\vect{x}} & = \vect{v}
+\end{align} 
+where $\mat{M}$ is the $3 \times 3$ \emph{generalized inertia} matrix, $\vect{x}$ is a three dimensional vector describing the position (two components) and orientation (one component) of the box in 2D, and $\vect{f}$ is the three dimensional vector of all forces on the box. \textbf{\emph{NOTE: I have included a file \texttt{boxode.m.hints} in the archive to help you along, if you want said help.}}
+
+\item Test your simulation of the box by simulating the box. Call the \textsc{MATLAB} function \texttt{simulate(.)} as follows from the \textsc{MATLAB} prompt (make sure \textsc{MATLAB}'s working directory has your \texttt{.m} files in it):
+\begin{verbatim}
+>> [t, x] = simulate();
+\end{verbatim}
+Find reasonable gain constants that make the box sit on the ground. Plot the
+height of the box using:
+\begin{verbatim}
+>> plot(t, x(2))
+\end{verbatim}
+\item Give the box some initial horizontal and vertical velocities and plot
+the position of the box again (start velocity values near zero). Frictional forces should cause the box to
+eventually come to a halt. Does it? (You may have to simulate for longer than
+ten seconds to see this; you can change how long the simulation runs by
+modifying \texttt{simulate.m}).
+Use: 
+\begin{verbatim}
+>> plot(t, x(1));  
+\end{verbatim}
+to plot the horizontal position of the box and the command from above to plot the vertical position of the box. \emph{Hint:} you likely don't want a corner of the box to leave the ground plane (as it is likely to do under certain conditions). 
+\end{enumerate}
+
+\end{document}
+
+

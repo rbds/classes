@@ -1,6 +1,3 @@
-%% MAE 6258 Schur_HW6
-%Randy Schur
-%Adapted from HW5 solutions.
 clear 
 close all
 
@@ -45,10 +42,10 @@ end
 ampl = 10^(25/20);    
 r1 = 35/w_a;
 r2 = 45/w_a;
-fn1 = @(mu1) r1 - (p^2 - r1^2)/abs((1-r1^2)*(p^2-r1^2) -mu1*p^2*r1^2);
-mu = [.004 .0065 ]; %
 
-G_DVA = zeros(length(mu),length(w));
+mu = [.004 .065];
+%      mu = [0.005 0.01 0.05 0.1 0.5 1];
+    G_DVA = zeros(length(mu),length(w));
 % G(iw) =W(x,iw)/F(iw) w/ DVA
 for i = 1:length(mu)
     % varying DVA parameters
@@ -106,13 +103,12 @@ zeta = c/(2*m2*w2);
 mu = m2/m1;
 
 s = tf('s');
-G1 = 1/m2*(s^2+2*zeta*w2*s+w2^2)/((mu*s^2+2*zeta*w2*s+w2^2)*(s^2+2*zeta*w2*s+w2^2)-(2*zeta*w2*s+w2^2)^2);
-K = tf([T 1], [T*alpha 1]);
-G2 = (1/m2)/((mu*s^2+2*zeta*w2*s+w2^2)*(s^2+2*zeta*w2*s+w2^2)-(2*zeta*w2*s+w2^2)^2);
-% G3 = (m2*s^2+c*s+k)/((m1*s^2+c*s+k)*(m2*s^2+c*s+k)-(c*s+k)^2);
-% G4 = 1/((m1*s^2+c*s+k)*(m2*s^2+c*s+k)-(c*s+k)^2);
+G1=(m2*s^2+c*s+k)/((m2*s^2+c*s+k)*(m1*s^2+c*s+k)-(c*s+k)^2);
+G2 = w2^2/((mu*s^2+2*zeta*w2*s+w2^2) - (2*zeta*w2*s+w2^2)/(x^2+2*zeta*w2*s+w2^2));
+H = tf([T 1], [T*alpha 1]);
 
-margin(G1*K)
-figure
-margin(G2*K)
+G1_loop=  G1/(1+G1*H);
+G2_loop = G2/(1+G2*H);
+margin(G1_loop)
+
 

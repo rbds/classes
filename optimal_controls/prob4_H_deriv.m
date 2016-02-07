@@ -1,5 +1,3 @@
-%Midterm MAE6292 Randy Schur
-
 function [Hx Hl Hxx Hxl Hlx Hll]=prob4_H_deriv(x,lambda)
 
 x1=x(1);

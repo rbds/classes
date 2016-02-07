@@ -8,9 +8,7 @@ close all
 m = 0.2;
 k=50000;
 c=.1;
-G = tf(1, [m c k]);
 d = [2500 5000 7500 10000];
-% d = fliplr(d);
 b = 0.25;
 S0 = 1;
 
@@ -42,7 +40,7 @@ time_broken= zeros(1,5);
 for i=1:4
     S = sqrt(pi*S0/((5-i)*c*k));
     fn(i) = sqrt(k*(5-i)/m);
-    const(i) = fn(i)./d(i)*(sqrt(2)*S^b)*gamma((b+2)/2);
+    const(i) = fn(i)./(2*pi*d(i))*(sqrt(2)*S^b)*gamma((b+2)/2);
     time_broken(i+1) = 1/(const(i));
 end
 plot(time_broken, num_breaks, 'x', time_broken, num_breaks, 'r')
@@ -67,11 +65,11 @@ close all;
 
 % create linear system
 m = 1;
-c = [.05 .2  .5  1  5 20 50];
+c = [.05 .2  .5  1  5];
 k = 25;
 
 
-for i = 1:length(c)
+for i = 1:5
     G = tf(1,[m c(i) k]);
 % create Gaussian white noise input
 dt = .01;

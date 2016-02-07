@@ -1,0 +1,253 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Schur_HW4</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-02-10"><meta name="DC.source" content="Schur_HW4.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">MAE 6258 HW 4</a></li><li><a href="#2">Problem 2</a></li><li><a href="#3">Problem 4</a></li></ul></div><h2>MAE 6258 HW 4<a name="1"></a></h2><pre class="codeinput"><span class="comment">%Randy Schur</span>
+<span class="comment">%2/11/15</span>
+clear
+close
+<span class="comment">%Problem 1a</span>
+F= 13;
+w = 20;
+m= 75;
+k= 2500;
+wn = sqrt(m/k);
+
+d_st = F/k;
+Xmax = .002;
+wa = w;
+p=wa/wn;
+r=w/wn;
+ma = F/(Xmax*wa^2);
+ka = wa^2*ma;
+
+<span class="comment">%b</span>
+mu = ma/m;
+fn1 = @(r1) abs(p^2-r1.^2)./abs((1-r1.^2).*(p^2-r1.^2)-mu*p^2*r1.^2) - 1;
+syms <span class="string">r</span>
+fn = abs(p^2-r^2)/abs((1-r^2)*(p^2-r^2)-mu*p^2*r^2);
+rhats = solve(1 == fn, r)
+</pre><pre class="codeoutput"> 
+rhats =
+ 
+  127.36788615149274177968542910426
+  127.36648783028533452778863834998
+  1.2821074536113069596109796856473
+                                  0
+ -127.36788615149274177968542910426
+ -127.36648783028533452778863834998
+ -1.2821074536113069596109796856473
+                                  0
+ 
+</pre><h2>Problem 2<a name="2"></a></h2><pre class="codeinput">clear
+close
+wn = 1750*2*pi/60;
+ma = 5;
+r_a = @(mu) (mu+2-sqrt((mu+2)^2-4))/2 - (1400/1750)^2;
+r_b = @(mu) (mu+2+sqrt((mu+2)^2-4))/2 - (2190/1750)^2;
+mu1 = fzero(r_a, 2);
+mu2 = fzero(r_b, 2);
+mu_avg = (mu1+mu2)/2;
+m_eff = ma/mu_avg;
+
+r1 = 1000/1750;
+r2 = 2000/1750;
+A = sqrt(10);
+phi1 = (-1/A+r1^2-1)^(-1);
+phi2 = (1/A+r2^2-1)^(-1);
+p_sq = r1^2*r2^2*(phi2-phi1)/(r2^2*phi2 - r1^2*phi1);
+mu =(r2^2 - r1^2)/(r1^2*r2^2*(phi2  -phi1));
+
+wa = sqrt(p_sq)*wn
+ma = mu*m_eff
+<span class="comment">%b</span>
+k1 = wn^2*m_eff;
+r = logspace( -1, 1, 1000);
+w = r*1750;
+X_1 = 1./abs(1 - r.^2);
+X_2 = abs(p_sq - r.^2)./abs((1-r.^2).*(p_sq-r.^2)-mu*p_sq.*r.^2);
+semilogx(w, 20*log10(X_1), w, 20*log10(X_2), w, repmat(10, [1 1000]))
+x = linspace(-40, 60, 100);
+y1 = repmat(1000, size(x));
+y2 = repmat(2000, size(x));
+
+hold <span class="string">on</span>
+semilogx(y1, x, <span class="string">'k:'</span>, y2, x, <span class="string">'k:'</span>)
+title(<span class="string">'System Frequency Response'</span>)
+xlabel(<span class="string">'RPM'</span>)
+ylabel(<span class="string">'Amplitude (dB)'</span>)
+legend(<span class="string">'No DVA'</span>, <span class="string">'With DVA'</span>)
+</pre><pre class="codeoutput">
+wa =
+
+  124.2398
+
+
+ma =
+
+   21.5567
+
+</pre><img vspace="5" hspace="5" src="Schur_HW4_01.png" alt=""> <h2>Problem 4<a name="3"></a></h2><pre class="codeinput">k1 = 40000;
+m=1000;
+Ft = 100;
+F = 70;
+gamma = .5*(Ft/F - 1);
+zeta = sqrt(2*(1+2*gamma)/gamma)/(4*(1+gamma));
+c = zeta*2*sqrt(m*k1)
+k2 = k1/gamma
+</pre><pre class="codeoutput">
+c =
+
+   9.5093e+03
+
+
+k2 =
+
+   1.8667e+05
+
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% MAE 6258 HW 4
+%Randy Schur
+%2/11/15
+clear 
+close
+%Problem 1a
+F= 13;
+w = 20;
+m= 75;
+k= 2500;
+wn = sqrt(m/k);
+
+d_st = F/k;
+Xmax = .002;
+wa = w;
+p=wa/wn;
+r=w/wn;
+ma = F/(Xmax*wa^2);
+ka = wa^2*ma;
+
+%b
+mu = ma/m;
+fn1 = @(r1) abs(p^2-r1.^2)./abs((1-r1.^2).*(p^2-r1.^2)-mu*p^2*r1.^2) - 1;
+syms r
+fn = abs(p^2-r^2)/abs((1-r^2)*(p^2-r^2)-mu*p^2*r^2);
+rhats = solve(1 == fn, r)
+
+%% Problem 2
+clear 
+close
+wn = 1750*2*pi/60;
+ma = 5;
+r_a = @(mu) (mu+2-sqrt((mu+2)^2-4))/2 - (1400/1750)^2;
+r_b = @(mu) (mu+2+sqrt((mu+2)^2-4))/2 - (2190/1750)^2;
+mu1 = fzero(r_a, 2);
+mu2 = fzero(r_b, 2);
+mu_avg = (mu1+mu2)/2;
+m_eff = ma/mu_avg;
+
+r1 = 1000/1750;
+r2 = 2000/1750;
+A = sqrt(10);
+phi1 = (-1/A+r1^2-1)^(-1);
+phi2 = (1/A+r2^2-1)^(-1);
+p_sq = r1^2*r2^2*(phi2-phi1)/(r2^2*phi2 - r1^2*phi1);
+mu =(r2^2 - r1^2)/(r1^2*r2^2*(phi2  -phi1));
+
+wa = sqrt(p_sq)*wn
+ma = mu*m_eff
+%b
+k1 = wn^2*m_eff;
+r = logspace( -1, 1, 1000);
+w = r*1750;
+X_1 = 1./abs(1 - r.^2);
+X_2 = abs(p_sq - r.^2)./abs((1-r.^2).*(p_sq-r.^2)-mu*p_sq.*r.^2);
+semilogx(w, 20*log10(X_1), w, 20*log10(X_2), w, repmat(10, [1 1000])) 
+x = linspace(-40, 60, 100);
+y1 = repmat(1000, size(x));
+y2 = repmat(2000, size(x));
+
+hold on
+semilogx(y1, x, 'k:', y2, x, 'k:')
+title('System Frequency Response')
+xlabel('RPM')
+ylabel('Amplitude (dB)')
+legend('No DVA', 'With DVA')
+
+%% Problem 4
+k1 = 40000;
+m=1000;
+Ft = 100;
+F = 70;
+gamma = .5*(Ft/F - 1);
+zeta = sqrt(2*(1+2*gamma)/gamma)/(4*(1+gamma));
+c = zeta*2*sqrt(m*k1)
+k2 = k1/gamma
+
+
+
+##### SOURCE END #####
+--></body></html>

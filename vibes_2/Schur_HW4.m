@@ -17,12 +17,14 @@ p=wa/wn;
 r=w/wn;
 ma = F/(Xmax*wa^2);
 ka = wa^2*ma;
+
 %b
 mu = ma/m;
-fn1 = @(r1) abs(p^2-r1^2)./abs((1-r1^2)*(p^2-r1^2)-mu*p^2*r1^2) - 1;
-syms r1
-%fn = abs(p^2-r1^2)/abs((1-r1^2)*(p^2-r1^2)-mu*p^2*r1^2);
-%rhats = solve('fn = 1', 'r1');
+fn1 = @(r1) abs(p^2-r1.^2)./abs((1-r1.^2).*(p^2-r1.^2)-mu*p^2*r1.^2) - 1;
+rhat1 = fsolve(fn1, 1);
+rhat2 = fsolve(fn1, 5);
+range_1 = rhat1*wn*60/(2*pi)
+range_2 = rhat2*wn*60/(2*pi)
 
 %% Problem 2
 clear 
@@ -46,7 +48,6 @@ mu =(r2^2 - r1^2)/(r1^2*r2^2*(phi2  -phi1));
 
 wa = sqrt(p_sq)*wn
 ma = mu*m_eff
-ka = wa^2*ma
 %b
 k1 = wn^2*m_eff;
 r = logspace( -1, 1, 1000);

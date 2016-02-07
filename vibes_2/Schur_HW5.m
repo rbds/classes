@@ -28,9 +28,7 @@ c = zeta_a*2*ma*wn
 
 % b
 pk =  10^0.4; % Use a max. amplitude of 8 dB, less than 10 with a safety factor.
-r1sq = (800/1400)^2;
-fn1 = @(mu) (mu+2-sqrt((mu+2)^2-4))/2 - r1sq;
-mu_b = fzero(fn1,1);
+mu_b = 2/(pk - 1);
 zeta_b = 1/sqrt(2*(mu_b+1)*(mu_b+2));
 p_b=1;
 
@@ -45,36 +43,32 @@ semilogx(wk, 20*log10(X_1), wk, 20*log10(X_a), wk, 20*log10(X_b), wk, repmat(10,
 x = linspace(-40, 60, 100);
 y1 = repmat(1000, size(x));
 y2 = repmat(1500, size(x));
-% max(X_a)
+max(X_a)
 hold on
 % semilogx(y1, x, 'k:', y2, x, 'k:')
 title('System Frequency Response')
 xlabel('RPM')
 ylabel('Amplitude (dB)')
-legend('No DVA', 'With DVA (b) - all freq.', 'With DVA(a)-operating range', '10 dB')
+legend('No DVA', 'With DVA (a)', 'With DVA(b)', '10 dB')
 
 %% Problem 2
 clear
 close all
 zeta = .05;
-x = .125;
-k=1:6; %number of modes to use.
-wa = 16*pi^2;
-ma = 10; %This will need to be adjusted
+x = linspace(0, 1, 1000);
+k=6; %number of modes to use.
 xa = .125;
 r = logspace(-1, 1, 1000);
-% s = 1j*r;
+s = 1j*r;
 w = 0;
-beta4 = (k.*pi).^4;
-syms s
-for i=1:length(k)
-   phi(i) = sin(i.*pi.*x); 
-   mu(i) = trapz(x,phi(i).^2,2);
+for i =1:k
+   phi(i,:)  = sin(k.*pi.*x); 
    beta4(i) = (i*pi)^4;
    wk(i) = sqrt(beta4(i));
    phi_xa(i) = sin(i*pi*xa);
-   Gtilde(i) = 1./(s.^2 + 2*zeta.*wk(i).*s + wk(i).^2);
-   w = w+phi_xa(i)./mu(i).*Gtilde(i).*phi(i)+Gtilde(i).*phi(i);
+   Gtilde(i, :) = 1./(s.^2 + 2*zeta.*wk(i).*s + wk(i).^2);
+    A(i,:) = abs(Gtilde(i,:)).*phi_xa(i)+1;
+    w =w+ A(i,:).*phi(i,:);
 end
-w_x = subs(w,s, 1j*w);
-semilogx(r, 20*log10(w_x))
+
+semilogx(r, 20*log10(w))

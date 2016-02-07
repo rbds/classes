@@ -1,0 +1,3 @@
+/media/randy/SpinnyHarddrive/classes/Robotics/HW1/feedback_control/build/CMakeFiles/PD_hold.dir
+/media/randy/SpinnyHarddrive/classes/Robotics/HW1/feedback_control/build/CMakeFiles/PID_hold.dir
+/media/randy/SpinnyHarddrive/classes/Robotics/HW1/feedback_control/build/CMakeFiles/track_sinusoidal.dir

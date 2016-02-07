@@ -1,4 +1,4 @@
-function [count]=ex0317_QL
+function ex0317_QL
 close all;
 
 N=501;
@@ -10,10 +10,8 @@ lambda_i=10*ones(N,1);
 
 eps=1e-6;
 delta=1;
-count = 0;
 
 while delta > eps
-    count = count+1;
     Phi=zeros(2,2,N);
     p=zeros(2,N);
     Phi(:,:,1)=eye(2);
@@ -55,7 +53,7 @@ while delta > eps
     ylabel('u');
     drawnow;
     
-    delta = max(abs(x-x_i))+max(abs(lambda-lambda_i));
+    delta=max(abs(x-x_i))+max(abs(lambda-lambda_i));
     
     x_i=x;
     lambda_i=lambda;
@@ -87,7 +85,7 @@ Hlx=-2*x;
 Hxl=-2*x;
 
 A=[Hlx Hll;
-  -Hxx -Hxl];
+    -Hxx -Hxl];
 e=-A*[x;lambda]+[Hl; -Hx];
 end
 

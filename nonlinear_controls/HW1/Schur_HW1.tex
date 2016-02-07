@@ -1,0 +1,54 @@
+%=======================02-713 LaTeX template, following the 15-210 template==================
+%
+% You don't need to use LaTeX or this template, but you must turn your homework in as
+% a typeset PDF somehow.
+%
+% How to use:
+%    1. Update your information in section "A" below
+%    2. Write your answers in section "B" below. Precede answers for all 
+%       parts of a question with the command "\question{n}{desc}" where n is
+%       the question number and "desc" is a short, one-line description of 
+%       the problem. There is no need to restate the problem.
+%    3. If a question has multiple parts, precede the answer to part x with the
+%       command "\part{x}".
+%    4. If a problem asks you to design an algorithm, use the commands
+%       \algorithm, \correctness, \runtime to precede your discussion of the 
+%       description of the algorithm, its correctness, and its running time, respectively.
+%    5. You can include graphics by using the command \includegraphics{FILENAME}
+%
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+%\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{16pt}
+\newcommand\question[2]{\vspace{.25in}\textbf{#1: #2}\vspace{.5em}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{(#1)}}
+\pagestyle{fancyplain}
+\lhead{\Large \textbf{Randy Schur}}
+\chead{\LARGE \textbf{MAE 6254 HW1}}
+\rhead{Due: 2/8/16}
+\begin{document}\raggedright
+
+\question{1}{Curve Fitting} 
+
+\part{a} 
+
+\part{b}
+
+\question{2}{Directions}
+You must turn this assignment in to Blackboard as a published pdf. Create a script to complete the homework assignment, taking care to control what is output to the command window. The code should be \textbf{well commented} so that it is easy to follow along. See directions for publishing to pdf below. 
+
+\begin{enumerate}
+\item Go to the publish tab in MATLAB
+\item Select the drow down under 'Publish'
+\item Edit Publishing Options
+\item Output file format should be '.pdf'. This is the only change you should need to make.
+\item Press publish, and save the resulting pdf with your name and the assignment number in the title.
+\end{enumerate}
+
+
+\end{document}

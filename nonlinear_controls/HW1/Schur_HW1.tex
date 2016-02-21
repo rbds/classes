@@ -33,22 +33,40 @@
 \rhead{Due: 2/8/16}
 \begin{document}\raggedright
 
-\question{1}{Curve Fitting} 
+\question{Problem 1}{} 
 
 \part{a} 
+\begin{equation*}
+\frac{dy(\tau)}{d\tau} = \frac{1}{a}x'\left( \frac{\tau}{a} \right) = \frac{f\left( \frac{\tau}{a} \right)}{a}
+\end{equation*}
 
 \part{b}
+\begin{equation*}
+\frac{dy(\tau)}{d\tau}\Bigr|_{a=-1} = -f(-t)
+\end{equation*}
 
-\question{2}{Directions}
-You must turn this assignment in to Blackboard as a published pdf. Create a script to complete the homework assignment, taking care to control what is output to the command window. The code should be \textbf{well commented} so that it is easy to follow along. See directions for publishing to pdf below. 
+\question{Problem 2}{}
+\part{a}
+\begin{align*}
+x &= 
+\begin{bmatrix}
+\theta \\
+\dot{\theta}
+\end{bmatrix} \\
+\dot{x} = f(x)  &= 
+\begin{bmatrix}
+x_2 \\
+\frac{g}{l}sin(x_1) - cx_2
+\end{bmatrix}
+\end{align*}
 
-\begin{enumerate}
-\item Go to the publish tab in MATLAB
-\item Select the drow down under 'Publish'
-\item Edit Publishing Options
-\item Output file format should be '.pdf'. This is the only change you should need to make.
-\item Press publish, and save the resulting pdf with your name and the assignment number in the title.
-\end{enumerate}
+\part{b} equilibria are at $\mathbf{\dot{x}} = 0$
+\begin{align*}
+\Rightarrow x_2 &= 0 \\
+0 &= -\frac{g}{l}sin(x_1) - cx_2 \\
+\Rightarrow x_1 &= 0, \pi
+\end{align*}
+
 
 
 \end{document}

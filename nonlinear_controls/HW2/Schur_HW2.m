@@ -38,3 +38,4 @@ end
 quiver(X, Y, u, v, 'red')
 axis equal
 axis([-5, 5, -2, 2])
+title('Phase Portrait x1 vs x2')

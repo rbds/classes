@@ -25,6 +25,10 @@
 \usepackage{amsmath,amsfonts,amsthm} % Math packages
 \usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
 
+\usepackage[pdftex]{graphicx}
+\usepackage{epstopdf}
+\DeclareGraphicsExtensions{.eps}
+
 \usepackage{sectsty} % Allows customizing section commands
 \allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
 
@@ -170,41 +174,62 @@ V(x_1, x_2) &= \frac{3}{2} x_1^2-x_1x_2+x_2^2 \\
 &= \begin{bmatrix}x_1 & x_2\end{bmatrix} \mathbf{P} \begin{bmatrix}x_1 & x_2\end{bmatrix}^T \\
 &= \begin{bmatrix}x_1 & x_2\end{bmatrix} \begin{bmatrix}3/2 & -2\\ 1 & 1\end{bmatrix} \begin{bmatrix}x_1 & x_2\end{bmatrix}^T
 \end{align}
-$V$ is p.d. if $\mathbf{P}$ is p.d. Matrix $\mathbf{P}$ is p.d. if the eigenvalues of $\mathbf{P}+\mathbf{P}^T/2>0$, or equivalently if the determinant of each leading principle minor is positive.
+$V$ is p.d. if $\mathbf{P}$ is p.d. Matrix $\mathbf{P}$ is p.d. if the eigenvalues of $[\mathbf{P}+\mathbf{P}^T]/2>0$, or equivalently if the determinant of each leading principle minor is positive.
 \begin{equation}
 [P+P^T]/2 = Q = \begin{bmatrix}3/2 & -\frac{1}{2}\\ -\frac{1}{2} & 1\end{bmatrix}
 \end{equation}
-Both leading principle minors of $\mathbf{Q}$ are positive, and therefore $V$ is positive definite.
-\newpage
+Both leading principle minors of $\mathbf{Q}$ are positive, and therefore $V$ is positive definite. \\
+
+b) Show that the equilibrium is asymptotically stable:
+\begin{align}
+\dot{V} &= \frac{\partial V}{\partial x_1}\dot{x_1} + \frac{\partial V}{\partial x_2}\dot{x_2} \\
+&= (3x_1-x_2)(-x_2) + (2x_2-x_1)((x_1^2-1)x_2+x_1) \\
+&= -x_1^2-x_2^2 + 2x_1^2x_2^2-x_1^3x_2 \\
+&= -x_1^2(1+x_1x_2) - x_2^2(1-2x_1^2)
+\end{align}
+In the domain $D=\{x_1, x_2 \in \mathbb{R}\ |\ 1+x_1x_2>0,\ x_1^2<\frac{1}{2}\}$, $\dot{V}$ is negative definite, and therefore the equilibrium is asymptotically stable. \\
+
+c) For a constant $c$, the sublevel set $\Omega_c$ of $V$ is described by an ellipse. This ellipse can be found from the equation of $V$. The equation of an ellipse is given by 
+\begin{equation}
+0=Ax^2+Bxy+Cy^2+Dx+Ey+F
+\end{equation}
+where the coefficients are calculated as functions of the semi-major ($a$) and semi-minor ($b$) axes, and angle ($\theta$) of the semi-major axis. In this case
+\begin{align}
+A &= \frac{3}{2} &= a^2sin^2\theta + b^2cos^2\theta \\
+B &= -1 &= 2(b^2-a^2)sin\theta cos\theta \\
+C &= 1 &= a^2cos^2\theta + b^2sin^2\theta \\
+F &= c &= -a^2b^2
+\end{align}
+This system of equations can be solved for $a, b, \theta$. For a constant $c$:
+\begin{align}
+a^2 &= \frac{-c}{b^2} \\
+b^2 &= \frac{-\frac{3}{2} \pm \sqrt{\frac{9}{4}+4cos^2\theta sin^2\theta}}{2cos^2\theta} \\
+\frac{-1}{b(\theta)^2 + \frac{c}{b(\theta)}} &= sin(2\theta)
+\end{align}
+Once this system of equations is solved, the semi-major axis is given by $a$, the semi-minor axis is given by $b$, the angle of the semi-major axis is given by $\theta$, and the angle of the semi-minor axis is given by $\theta+\frac{\pi}{2}$.
+The ellipse described above can be seen in the contour plot of $V$.
+\begin{figure}[h!]
+\label{contour1}
+\centering
+\includegraphics[scale=0.75]{prob3_ellipse}
+\caption{Contour plot of $V$. The sublevel set of $V$ is anything inside a given contour corresponding to the constant $c$.}
+\end{figure} 
+
+(d) The region of attraction (ROA) for $V$ is bounded by trajectories. This region is described by the largest sublevel set in which ${V}$ always remains. A conservative estimate of this region of attraction is given by the ellipse found when $a=4, b=1/4, \theta=0$. This region can be expanded out to the trajectories given as the limits of the domain $D$. A larger estimate of the ROA is given by the largest subset of $V$ for which $\dot{V}$ remains negative. This is true for the ellipse at $\theta=1.02, a = 5/3, b= 1$. This ellipse is shown in the image below.
+
+\begin{figure}[h!]
+\label{contour2}
+\centering
+\includegraphics[scale=0.75]{prob3_ROA}
+\caption{Estimates of the region of attraction plotted over a contour plot of $\dot{V}$}
+\end{figure} 
+
+
+
+
 
 \newpage
-\section{Lists}
 
-%------------------------------------------------
-
-\subsection{Example of list (3*itemize)}
-\begin{itemize}
-	\item First item in a list 
-		\begin{itemize}
-		\item First item in a list 
-			\begin{itemize}
-			\item First item in a list 
-			\item Second item in a list 
-			\end{itemize}
-		\item Second item in a list 
-		\end{itemize}
-	\item Second item in a list 
-\end{itemize}
-
-%------------------------------------------------
-
-\subsection{Example of list (enumerate)}
-\begin{enumerate}
-\item First item in a list 
-\item Second item in a list 
-\item Third item in a list
-\end{enumerate}
-
-%----------------------------------------------------------------------------------------
+\newpage
 
 \end{document}

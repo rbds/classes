@@ -6,16 +6,58 @@ V = @(x1, x2) 3/2*x1.^2 - x1.*x2 + x2.^2;
 V_dot = @(x1, x2) -x1.^2.*(1 + x1.*x2) - x2.^2.*(1-2*x1.^2);
 [X, Y] = meshgrid(x, x);
 
-colormap('default')
-surf(x, x, V(X,Y))
-figure
+% colormap('default')
+% surf(x, x, V(X,Y))
+% figure
 contourf(x,x, V(X,Y))
-figure
-surf(x,x, V_dot(X,Y))
-colormap('default')
-figure
-contourf(x,x,V_dot(X,Y))
+title('V(x_1, x_2)')
+xlabel('x_1')
+ylabel('x_2')
 colorbar
+
+x1 = 3;
+x2 = -x1;
+y1 = 1.5;
+y2= -y1;
+e = sqrt(1-(1/4)^2/(4^2));
+ a = 1/2*sqrt((x2-x1)^2+(y2-y1)^2);
+ b = a*sqrt(1-e^2);
+ t = linspace(0,2*pi);
+ X = a*cos(t);
+ Y = b*sin(t);
+ w = atan2(y2-y1,x2-x1);
+ x = (x1+x2)/2 + X*cos(w) - Y*sin(w);
+ y = (y1+y2)/2 + X*sin(w) + Y*cos(w)
+ hold on
+ plot(x,y,'y-')
+% figure
+% surf(x,x, V_dot(X,Y))
+% colormap('default')
+
+
+% figure
+% contourf(x,x,V_dot(X,Y))
+% title('Vdot(x_1, x_2)')
+% xlabel('x_1')
+% ylabel('x_2')
+% colorbar
+% x1 = 4;
+% x2 = -4;
+% y1 = 0;
+% y2=0;
+% e = sqrt(1-(1/4)^2/(4^2));
+%  a = 1/2*sqrt((x2-x1)^2+(y2-y1)^2);
+%  b = a*sqrt(1-e^2);
+%  t = linspace(0,2*pi);
+%  X = a*cos(t);
+%  Y = b*sin(t);
+%  w = atan2(y2-y1,x2-x1);
+%  x = (x1+x2)/2 + X*cos(w) - Y*sin(w);
+%  y = (y1+y2)/2 + X*sin(w) + Y*cos(w)
+%  hold on
+%  plot(x,y,'y-')
+%  axis equal
+
 
 %% Problem 5f
 clear

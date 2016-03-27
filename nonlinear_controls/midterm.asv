@@ -1,0 +1,36 @@
+%% Prob. 3.
+clear; close all
+
+x = -5:.01:5;
+V = @(x1, x2) 3/2*x1.^2 - x1.*x2 + x2.^2;
+V_dot = @(x1, x2) -x1.^2.*(1 + x1.*x2) - x2.^2.*(1-2*x1.^2);
+[X, Y] = meshgrid(x, x);
+
+colormap('default')
+surf(x, x, V(X,Y))
+figure
+contourf(x,x, V(X,Y))
+figure
+surf(x,x, V_dot(X,Y))
+colormap('default')
+figure
+contourf(x,x,V_dot(X,Y))
+colorbar
+
+%% Problem 5f
+clear
+close all
+
+t = linspace(0, 20, 1001);
+pd = [sin(3*pi*t + pi/2); sin(2*pi*t); repmat(-1, size(t))];
+pd_dot = [3*pi*cos(3*pi*t + pi/2); 2*pi*cos(2*pi*t); repmat(-1, size(t))];
+% plot3(pd(1,:), pd(2,:), pd(3,:))
+p0 = [0; 0; 0];
+pdot0 = [0; 0; 0];
+[t, p] = ode45(@midterm5, [0, 20], [p0; pdot0], []);
+plot3(p(1,:), p(2,:), p(3,:))
+% hold on 
+figure
+plot3(pd(1,:), pd(2,:), pd(3,:))
+
+

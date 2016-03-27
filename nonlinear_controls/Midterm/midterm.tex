@@ -83,8 +83,7 @@ For the following system:
 \dot{x_2} &= x_1 - x_2^3				
 \end{align*}
 a) find three equilibria \\
-b) Find the type of each equilibrium
-\subsection{}
+
 Equilibria are at $x^*$ where $\dot{x}^*=0$. Therefore 
 \begin{align*}
 0 &= -x_1^3 + x_2 \\
@@ -92,11 +91,12 @@ Equilibria are at $x^*$ where $\dot{x}^*=0$. Therefore
 \end{align*}
 This is true at:
 \begin{align}
-x^* = \begin{bmatrix}0 & 0\end{bmatrix}^T 
-x^* = \begin{bmatrix}1 & 1\end{bmatrix}^T 
-x^* = \begin{bmatrix}-1 & -1\end{bmatrix}^T 
+x_1^* = \begin{bmatrix}0 & 0\end{bmatrix}^T \\
+x_2^* = \begin{bmatrix}1 & 1\end{bmatrix}^T \\
+x_3^* = \begin{bmatrix}-1 & -1\end{bmatrix}^T \\
 \end{align}
-\subsection{}
+
+b) Find the type of each equilibrium
 \begin{align*}
 x &= x^* + \delta x \\
 \dot{x} &= \dot{x}^* + \delta \dot{x} = \frac{\partial f}{\partial x}\Bigr|_{x^*} \\
@@ -204,7 +204,7 @@ This system of equations can be solved for $a, b, \theta$. For a constant $c$:
 \begin{align}
 a^2 &= \frac{-c}{b^2} \\
 b^2 &= \frac{-\frac{3}{2} \pm \sqrt{\frac{9}{4}+4cos^2\theta sin^2\theta}}{2cos^2\theta} \\
-\frac{-1}{b(\theta)^2 + \frac{c}{b(\theta)}} &= sin(2\theta)
+sin(2\theta) &= \frac{-1}{b(\theta)^2 + \frac{c}{b(\theta)}} 
 \end{align}
 Once this system of equations is solved, the semi-major axis is given by $a$, the semi-minor axis is given by $b$, the angle of the semi-major axis is given by $\theta$, and the angle of the semi-minor axis is given by $\theta+\frac{\pi}{2}$.
 The ellipse described above can be seen in the contour plot of $V$.
@@ -217,19 +217,48 @@ The ellipse described above can be seen in the contour plot of $V$.
 
 (d) The region of attraction (ROA) for $V$ is bounded by trajectories. This region is described by the largest sublevel set in which ${V}$ always remains. A conservative estimate of this region of attraction is given by the ellipse found when $a=4, b=1/4, \theta=0$. This region can be expanded out to the trajectories given as the limits of the domain $D$. A larger estimate of the ROA is given by the largest subset of $V$ for which $\dot{V}$ remains negative. This is true for the ellipse at $\theta=1.02, a = 5/3, b= 1$. This ellipse is shown in the image below.
 
-\begin{figure}[h!]
+\begin{figure}[h]
 \label{contour2}
 \centering
 \includegraphics[scale=0.75]{prob3_ROA}
 \caption{Estimates of the region of attraction plotted over a contour plot of $\dot{V}$}
 \end{figure} 
 
+\newpage
 
+\section{Problem 4}
+a) Show that $V$ is positive definite and decrescent for the given time-varying system:
+\begin{align}
+V(t, x_1, x_2) &= \frac{1}{2}(x_1+x_2)^2+\frac{1}{2}(1+b(t))x_1^2 \\
+&\geq \begin{bmatrix}x_1 & x_2\end{bmatrix} \begin{bmatrix}2 & \frac{1}{2}\\ \frac{1}{2} & \frac{1}{2}\end{bmatrix} \begin{bmatrix}x_1 & x_2\end{bmatrix}^T = W_1(x)
+\end{align}
+Since $W_1(x)$ is p.d., and $V \geq W_1(x) \forall t$, $V$ must be p.d. Also, 
+\begin{align}
+ V(t, x_1, x_2) &= \frac{1}{2}(x_1+x_2)^2+\frac{1}{2}(1+b(t))x_1^2 \\
+&\leq \begin{bmatrix}x_1 & x_2\end{bmatrix} \begin{bmatrix}3 & \frac{1}{2}\\ \frac{1}{2} & 1\end{bmatrix} \begin{bmatrix}x_1 & x_2\end{bmatrix}^T = W_2(x)
+\end{align}
+Since $W_2(x)$ is p.d. and $V \leq W_2(x) \forall t$, $V$ must be decrescent. \\
 
+b) Show that the origin is globally asymptotically stable, and find the constants of the exponential bound:
 
+First, we have already found that V is positive definite and decrescent. Additionally, because $V\rightarrow \infty \Rightarrow x \rightarrow \infty$, $V$ is radially unbounded. These properties hold for $D = \mathbb{R}^2$.
+\begin{align}
+\dot{V} &= \frac{\partial V}{\partial x_1}\dot{x_1} + \frac{\partial V}{\partial x_2}\dot{x_2} \\
+&= (4x_1 + x_2)\dot{x_1} + (x_1+x_2)\dot{x_2} \\
+&= -2x_1^2 + (2-b(t))x_1x_2 - (b(t)-1)x_2^2 \\
+&\leq -2x_1^2 -2x_1x_2 - 3x_2^2 \\
+&\leq -3 \lvert\lvert x \rvert\rvert
+\end{align}
+Therefore, V is negative definite. This holds for $D = \mathbb{R}^2$, so the equilibrium is globally exponentially stable and bounded by $\lvert\lvert x \rvert\rvert \leq 3\lvert\lvert x_0\rvert\rvert exp[-(t-t_0)]$. The constants for the exponential bound are found by
+\begin{align}
+W_1(x) &=\frac{1}{2}\lvert\lvert x \rvert\rvert \\
+W_2(x) &=\frac{3}{2}\lvert\lvert x \rvert\rvert \\
+W_3(x) &=-3\lvert\lvert x \rvert\rvert \\
+k &= \frac{k_2}{k_1} = 3 \\
+\gamma &= \frac{-k_3}{2k_2} = 1
+\end{align}
 
 \newpage
 
-\newpage
-
+\section{Problem 5}
 \end{document}

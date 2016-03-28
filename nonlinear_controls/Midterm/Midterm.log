@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.9.9)  27 MAR 2016 18:55
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.9.9)  28 MAR 2016 08:29
 entering extended mode
 **midterm.tex
 
@@ -417,17 +417,59 @@ Underfull \hbox (badness 10000) in paragraph at lines 239--241
  []
 
 [6 <C:/Users/Randy/Documents/GitHub/classes/nonlinear_controls/Midterm/prob3_RO
-A-eps-converted-to.pdf>] [7] [8]
+A-eps-converted-to.pdf>] [7]
+Underfull \hbox (badness 10000) in paragraph at lines 290--292
+
+ []
+
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 300--302
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 308--310
+
+ []
+
+Package epstopdf Info: Source file: <prob5f.eps>
+(epstopdf)                    date: 2016-03-28 08:13:58
+(epstopdf)                    size: 96938 bytes
+(epstopdf)             Output file: <prob5f-eps-converted-to.pdf>
+(epstopdf)                    date: 2016-03-28 08:14:19
+(epstopdf)                    size: 41717 bytes
+(epstopdf)             Command: <epstopdf --outfile=prob5f-eps-converted-to.pdf
+ prob5f.eps>
+(epstopdf)             \includegraphics on input line 314.
+Package epstopdf Info: Output file is already uptodate.
+<prob5f-eps-converted-to.pdf, id=54, 963.6pt x 454.69875pt>
+File: prob5f-eps-converted-to.pdf Graphic file (type pdf)
+
+<use prob5f-eps-converted-to.pdf>
+Package pdftex.def Info: prob5f-eps-converted-to.pdf used on input line 314.
+(pdftex.def)             Requested size: 481.79883pt x 227.34882pt.
+
+Overfull \hbox (63.54327pt too wide) in paragraph at lines 314--315
+ [][] 
+ []
+
+[9 <C:/Users/Randy/Documents/GitHub/classes/nonlinear_controls/Midterm/prob5f-e
+ps-converted-to.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 330--333
+
+ []
+
+[10]
 (C:\Users\Randy\Documents\GitHub\classes\nonlinear_controls\Midterm\midterm.aux
 ) ) 
 Here is how much of TeX's memory you used:
- 4505 strings out of 493921
- 64893 string characters out of 3144877
- 271089 words of memory out of 3000000
- 7713 multiletter control sequences out of 15000+200000
+ 4510 strings out of 493921
+ 65030 string characters out of 3144877
+ 272089 words of memory out of 3000000
+ 7717 multiletter control sequences out of 15000+200000
  18664 words of font info for 55 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 54i,14n,47p,581b,236s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 54i,16n,47p,581b,236s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Randy\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600
 \eccc1440.pk> <C:\Users\Randy\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen
 \ec\dpi600\ecrm1095.pk> <C:\Users\Randy\AppData\Local\MiKTeX\2.9\fonts\pk\ljfou
@@ -436,17 +478,18 @@ s\pk\ljfour\jknappen\ec\dpi600\ecrm2074.pk><C:/Program Files (x86)/MiKTeX 2.9/f
 onts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fon
 ts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts
 /type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/t
-ype1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type
-1/public/amsfonts/cm/cmr10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/p
-ublic/amsfonts/cm/cmr6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/publi
-c/amsfonts/cm/cmr8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsf
-onts/cm/cmsy6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfont
-s/cm/cmsy8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/s
-ymbols/msbm10.pfb>
-Output written on midterm.pdf (8 pages, 269394 bytes).
+ype1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/p
+ublic/amsfonts/cm/cmr10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/publ
+ic/amsfonts/cm/cmr6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cm/cmr8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfo
+nts/cm/cmsy10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmsy6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/c
+m/cmsy8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/symb
+ols/msbm10.pfb>
+Output written on midterm.pdf (10 pages, 332929 bytes).
 PDF statistics:
- 195 PDF objects out of 1000 (max. 8388607)
+ 214 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

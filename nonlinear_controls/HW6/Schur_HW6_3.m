@@ -2,7 +2,7 @@ function Schur_HW6_3
 close all;
 
 theta=2.5;
-k=ones(2,1);
+k=[5 2];
 m=0.5;
 g=9.81;
 e3=[0 0 1]';
@@ -38,7 +38,6 @@ end
 
 function X_dot=eom(t,X)
 theta=2.5;
-k=ones(2,1);
 m=0.5;
 g=9.81;
 e3=[0 0 1]';
@@ -59,8 +58,7 @@ X_dot=[p_dot; v_dot; theta_hat_dot];
 end
 
 function u=control(t,X)
-theta=2.5;
-k=ones(2,1);
+k=[5 2];
 m=0.5;
 g=9.81;
 e3=[0 0 1]';

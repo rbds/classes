@@ -2,7 +2,7 @@ function Schur_HW6_2
 close all;
 
 theta=2.5;
-k=ones(2,1);
+k=ones(2,1)*2;
 m=0.5;
 g=9.81;
 e3=[0 0 1]';
@@ -11,7 +11,7 @@ B = 4;
 
 X0=[1; -1; 0; 2; -1; 1];
 N=501;
-t=linspace(0,50,N);
+t=linspace(0,10,N);
 
 [t, X]=ode45(@eom,t,X0);
 
@@ -53,7 +53,7 @@ end
 
 function u=control(t,X)
 
-k=ones(2,1);
+k=ones(2,1)*2;
 m=0.5;
 g=9.81;
 e3=[0 0 1]';

@@ -1,0 +1,75 @@
+function Schur_HW6_3
+close all;
+
+theta=2.5;
+k=ones(2,1);
+m=0.5;
+g=9.81;
+e3=[0 0 1]';
+
+gamma=[1 1];
+
+X0=[1; -1; 0; 2; -1; 1; theta];
+N=501;
+t=linspace(0,20,N);
+
+[t, X]=ode45(@eom,t,X0);
+
+
+p = X(:,1:3);
+v = X(:,4:6);
+theta_hat = X(:,end);
+
+for i=1:N
+    u(i,:) = control(t(i), X(i,:)');
+end
+
+figure;plot(t,p);ylabel('x'); xlabel('t')
+title('Position vs. time'); legend('p_1', 'p_2', 'p_3');
+figure;plot(t,v);ylabel('v','interpreter','latex'); xlabel('t')
+title('Velocity vs. time'); legend('v_1', 'v_2', 'v_3');
+figure;plot(t,u);ylabel('u'); xlabel('t')
+title('Control Input vs. time'); legend('u_1', 'u_2', 'u_3');
+figure;plot(t,theta_hat);ylabel('$\hat\theta$','interpreter','latex'); xlabel('t')
+title('Estimated theta vs. time');
+
+end
+
+
+function X_dot=eom(t,X)
+theta=2.5;
+k=ones(2,1);
+m=0.5;
+g=9.81;
+e3=[0 0 1]';
+gamma=1;
+
+p=X(1:3);
+v = X(4:6);
+theta_hat = X(end);
+
+p_dot=v;
+v_dot = g*e3 + u/m - theta/m*sat(v);
+
+u=control(t,X);
+
+x_dot=u+theta;
+theta_hat_dot=gamma*x;
+
+X_dot=[p_dot; v_dot; theta_hat_dot];
+end
+
+function u=control(t,X)
+theta=2.5;
+k=ones(2,1);
+m=0.5;
+g=9.81;
+e3=[0 0 1]';
+gamma=[1 1];
+
+x=X(1);
+theta_hat=X(2);
+
+phi=2*x+x^2+1;
+u=-k*x-theta_hat*phi;
+end

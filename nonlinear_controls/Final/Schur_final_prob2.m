@@ -1,9 +1,9 @@
-function Schur_HW5
+function Schur_final_prob2
 close all;
 
-X0=[pi/4 0]';
+X0=[1.5 0.5]';
 N=501;
-t=linspace(0,20,N);
+t=linspace(0,10,N);
 [t X]=ode45(@eom,t,X0);
 
 x1=X(:,1);
@@ -15,7 +15,7 @@ end
 figure;
 plot(x1,x2);hold on;
 plot([-1 1],[1, -1],'r--');
-title('\theta vs. $\dot{\theta}$', 'interpreter','latex')
+title('x vs. x_dot$')
 xlabel('\theta')
 ylabel('$\dot{\theta}$')
 figure
@@ -38,11 +38,11 @@ x1=X(1);
 x2=X(2);
 
 s=x1+x2;
-dmax = 0.6783;
-beta=2*dmax;
+rho = abs(x1)*abs(x2)+x2^2+.2/5.5*abs(s);
+beta0= 11;
 
 eps=0.01;
-u=-(beta)*sat(s/eps);
+u= -(rho+beta0)*sat(s/eps);
 end
 
 function y=sat(x)
@@ -59,20 +59,15 @@ function X_dot=eom(t,X)
 x1=X(1);
 x2=X(2);
 
-m = 1;
-k=.1;
-l = 1;
-g = 9.81;
-h = sin(2*t);
+m = 5.5;
+c1 = .04;
+c2 = .01;
+del = 0.1*sin(x1)+0.1*cos(x2);
 
-a = g/l;
-b = k/m;
-c = 1/(m*l^2);
-z = h/l;
 u=control(t,X);
 
 x1_dot=x2;
-x2_dot=-a*sin(x1)-b*x2+c*u+z*cos(x1);
+x2_dot=-c1*x2 - c2*x2*abs(x2)+ del + u;
 
 X_dot=[x1_dot; x2_dot];
 end

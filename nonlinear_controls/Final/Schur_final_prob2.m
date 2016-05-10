@@ -13,15 +13,17 @@ for k=1:N
 end
 
 figure;
+subplot(3,1,1)
 plot(x1,x2);hold on;
 plot([-1 1],[1, -1],'r--');
-title('x vs. x_dot$')
+title('x vs. x_{dot}')
 xlabel('\theta')
 ylabel('$\dot{\theta}$')
-figure
+subplot(3,1,2)
 plot(t,u)
 title('Control Input vs. time')
-figure
+% figure
+subplot(3,1,3)
 plot(t, x1, 'b-', t, x2, 'r-')
 hold on
 plot(t, repmat(.01, size(t)), 'k--', t, repmat(-.01, size(t)), 'k--')

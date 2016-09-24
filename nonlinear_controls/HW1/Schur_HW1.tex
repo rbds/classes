@@ -1,0 +1,72 @@
+%=======================02-713 LaTeX template, following the 15-210 template==================
+%
+% You don't need to use LaTeX or this template, but you must turn your homework in as
+% a typeset PDF somehow.
+%
+% How to use:
+%    1. Update your information in section "A" below
+%    2. Write your answers in section "B" below. Precede answers for all 
+%       parts of a question with the command "\question{n}{desc}" where n is
+%       the question number and "desc" is a short, one-line description of 
+%       the problem. There is no need to restate the problem.
+%    3. If a question has multiple parts, precede the answer to part x with the
+%       command "\part{x}".
+%    4. If a problem asks you to design an algorithm, use the commands
+%       \algorithm, \correctness, \runtime to precede your discussion of the 
+%       description of the algorithm, its correctness, and its running time, respectively.
+%    5. You can include graphics by using the command \includegraphics{FILENAME}
+%
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+%\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{16pt}
+\newcommand\question[2]{\vspace{.25in}\textbf{#1: #2}\vspace{.5em}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{(#1)}}
+\pagestyle{fancyplain}
+\lhead{\Large \textbf{Randy Schur}}
+\chead{\LARGE \textbf{MAE 6254 HW1}}
+\rhead{Due: 2/8/16}
+\begin{document}\raggedright
+
+\question{Problem 1}{} 
+
+\part{a} 
+\begin{equation*}
+\frac{dy(\tau)}{d\tau} = \frac{1}{a}x'\left( \frac{\tau}{a} \right) = \frac{f\left( \frac{\tau}{a} \right)}{a}
+\end{equation*}
+
+\part{b}
+\begin{equation*}
+\frac{dy(\tau)}{d\tau}\Bigr|_{a=-1} = -f(-t)
+\end{equation*}
+
+\question{Problem 2}{}
+\part{a}
+\begin{align*}
+x &= 
+\begin{bmatrix}
+\theta \\
+\dot{\theta}
+\end{bmatrix} \\
+\dot{x} = f(x)  &= 
+\begin{bmatrix}
+x_2 \\
+\frac{g}{l}sin(x_1) - cx_2
+\end{bmatrix}
+\end{align*}
+
+\part{b} equilibria are at $\mathbf{\dot{x}} = 0$
+\begin{align*}
+\Rightarrow x_2 &= 0 \\
+0 &= -\frac{g}{l}sin(x_1) - cx_2 \\
+\Rightarrow x_1 &= 0, \pi
+\end{align*}
+
+
+
+\end{document}
